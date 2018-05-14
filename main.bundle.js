@@ -121,14 +121,14 @@ var AppRoutingModule = /** @class */ (function () {
 /***/ "./src/app/app.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".main{\r\n    background-color: rgb(231, 231, 231);\r\n    height: 100vh;\r\n}\r\n\r\n.container{\r\n    background-color: white;\r\n    padding: 2%;\r\n    border-radius: 10px;\r\n}\r\n\r\n"
+module.exports = "body{\r\n    /* background-color: rgb(231, 231, 231); */\r\n}\r\n\r\n.container{\r\n    background-color: white !important;\r\n    padding: 2%;\r\n    border-radius: 10px;\r\n    z-index: 99999999999;\r\n}\r\n\r\n"
 
 /***/ }),
 
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-navigation-bar></app-navigation-bar>\r\n<div class=\"main\">\r\n    <br/>\r\n    <br/> \r\n  <div class=\"container my-4\">\r\n    <router-outlet></router-outlet>\r\n   </div>\r\n</div>\r\n\r\n"
+module.exports = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset=\"utf-8\" />\r\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n  <title>Page Title</title>\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n  <link href=\"https://unpkg.com/ionicons@4.0.0/dist/css/ionicons.min.css\"rel=\"stylesheet\"/>\r\n\r\n</head>\r\n<body>\r\n  <app-navigation-bar></app-navigation-bar>\r\n<div class=\"main\">\r\n    <br/>\r\n    <!-- <i class=\"icon ion-md-add\"></i> -->\r\n    <br/> \r\n  <div class=\"container my-4\">\r\n    <router-outlet></router-outlet>\r\n   </div>\r\n\r\n</div>\r\n</body>\r\n</html>\r\n\r\n"
 
 /***/ }),
 
@@ -826,7 +826,7 @@ module.exports = ""
 /***/ "./src/app/navigation-bar/navigation-bar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-md navbar-dark bg-primary\">\r\n    <a class=\"collapse navbar-collapse\" style=\"max-width:11em\" routerLink=\"/home\">\r\n      <h3 style=\"color:#FFFFFF\">Tinycards_N4</h3>\r\n    </a>\r\n    \r\n    <!-- Home icon -->\r\n    <a class=\"mx-auto d-md-none navbar-toggler ion-ios-home-outline\" routerLink=\"/home\" role=\"button\" id=\"homeIcon\"></a>\r\n    <!-- Create icon -->\r\n    <a class=\"mx-auto d-md-none navbar-toggler ion-android-add\" routerLink=\"/create\" role=\"button\" id=\"createIcon\"></a>\r\n    <!-- Profile icon -->\r\n    <a class=\"mx-auto d-md-none navbar-toggler ion-android-contact\" routerLink=\"/profile\"  role=\"button\" id=\"profileIcon\"></a>\r\n    <!-- </div> -->\r\n    <!-- Menu -->\r\n    <div class=\"collapse navbar-collapse\">\r\n      <ul class=\"navbar-nav\">\r\n        <li class=\"nav-item mx-auto active\">\r\n          <a class=\"nav-link ion-ios-home-outline\" routerLink=\"/home\"> Home</a>\r\n        </li>\r\n        <li class=\"nav-item\">\r\n          <a class=\"nav-link ion-android-add \" routerLink=\"/create\"> Create </a>\r\n        </li>\r\n      </ul>      \r\n    </div>\r\n    <button *ngIf=\"!logedIn\" class=\"btn btn-primary\" routerLink=\"/login\">Đăng nhập</button>\r\n    <div *ngIf=\"logedIn\" class=\"nav-item\">{{userName}}</div>\r\n    <button *ngIf=\"logedIn\" class=\"btn btn-primary\" (click)=\"logOut()\">Đăng xuất</button>\r\n    \r\n</nav>\r\n"
+module.exports = "<nav class=\"navbar navbar-expand-md navbar-dark bg-primary\">\r\n  <a class=\"collapse navbar-collapse\" style=\"max-width:11em\" routerLink=\"/home\">\r\n    <h3 style=\"color:#FFFFFF\">Tinycards_N4</h3>\r\n  </a>\r\n\r\n  <!-- Home icon -->\r\n  <a class=\"mx-auto d-md-none navbar-toggler icon ion-md-home\" routerLink=\"/home\" role=\"button\" style=\"color:white\"></a>\r\n  <!-- Create icon -->\r\n  <a class=\"mx-auto d-md-none navbar-toggler icon ion-md-add\" routerLink=\"/create\" role=\"button\" style=\"color:white\"></a>\r\n  <a *ngIf=\"logedIn\" class=\"mx-auto d-md-none navbar-toggler icon ion-md-log-out\" style=\"color:white; outline:none\" (click)=\"logOut()\"\r\n    role=\"button\"></a>\r\n  <a *ngIf=\"!logedIn\" class=\"mx-auto d-md-none navbar-toggler icon ion-md-log-in\" routerLink=\"/login\" style=\"color:white; outline:none\"\r\n    role=\"button\"></a>\r\n\r\n  <!-- Profile icon -->\r\n  <!-- </div> -->\r\n  <!-- Menu -->\r\n  <div class=\"collapse navbar-collapse\">\r\n    <ul class=\"navbar-nav float-right\">\r\n      <li class=\"nav-item mx-auto active\">\r\n        <a class=\"nav-link ion-ios-home-outline\" routerLink=\"/home\"> Home</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link ion-android-add \" routerLink=\"/create\"> Create </a>\r\n      </li>\r\n    </ul>\r\n    \r\n  </div>\r\n\r\n  <button *ngIf=\"!logedIn\" class=\"d-none d-md-block btn btn-primary\" routerLink=\"/login\">Đăng nhập</button>\r\n    <div *ngIf=\"logedIn\" class=\"d-none d-md-block nav-item\">{{userName}}</div>\r\n    <button *ngIf=\"logedIn\" class=\"d-none d-md-block btn btn-primary\" (click)=\"logOut()\">Đăng xuất</button>\r\n\r\n\r\n</nav>"
 
 /***/ }),
 
