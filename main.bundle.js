@@ -370,9 +370,9 @@ var CreateCardComponent = /** @class */ (function () {
                 _this.newCardCollection.reset();
             }
             else {
-                window.alert("Đã có lỗi xảy ra, vui lòng thử lại sau");
+                window.alert("Đã có lỗi xảy ra ở phía server, vui lòng thử lại sau");
             }
-        }).catch(function (e) { return window.alert("Đã có lỗi xảy ra, vui lòng thử lại sau"); });
+        }).catch(function (e) { return window.alert("Server không phản hồi, vui lòng thử lại sau"); });
     };
     CreateCardComponent.prototype.ngOnInit = function () {
         this.newCardCollection = this.formBuilder.group({
@@ -426,6 +426,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var DataService = /** @class */ (function () {
+    // myWebServer= "http://localhost:9000";
     function DataService(http) {
         this.http = http;
         this.myWebServer = "https://tinycard-n4-server.herokuapp.com";
@@ -471,6 +472,7 @@ var DataService = /** @class */ (function () {
             .catch(function (err) { return false; });
     };
     DataService.prototype.sendNewCardCollection = function (value) {
+        console.log(value);
         var url = this.myWebServer + "/newCardCollection";
         return this.http.post(url, value)
             .toPromise()
@@ -513,7 +515,7 @@ module.exports = ""
 /***/ "./src/app/homepage/homepage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"background-color:rgb(255, 255, 255)\">\r\n    <div class=\"mx-4\">\r\n        <br/>\r\n        <h2 class=\" float-left \">Your favorites</h2>\r\n    </div>\r\n    <br/>\r\n    <br/>\r\n    <div class=\"row\">\r\n        <div *ngFor=\"let card of FavoriteCards\" class=\"col-lg-3 col-md-4 col-sm-6\">\r\n            <a routerLink=\"/learn/myFavoriteCollection/{{card._id}}\">\r\n                <app-card [cardTitle]=\"card.title\" [avatar]=\"card.avatar\" [typeAvatar]=\"card.typeAvatar\"></app-card>\r\n            </a>\r\n        </div>\r\n        <h4 class=\"mx-5\" style=\"color: red\" *ngIf=\"!logedIn\">Hãy đăng nhập để sử dụng tính năng này</h4>\r\n    </div>\r\n\r\n    <div class=\"mx-4\">\r\n            <br/>\r\n            <h2 class=\" float-left \">All cards</h2>\r\n        </div>\r\n        <br/>\r\n        <br/>\r\n        <div class=\"row\">\r\n            <div *ngFor=\"let card of Cards\" class=\"col-lg-3 col-md-4 col-sm-6\">\r\n                <a routerLink=\"/learn/collection/{{card._id}}\">\r\n                    <app-card [cardTitle]=\"card.title\" [avatar]=\"card.avatar\" [typeAvatar]=\"card.typeAvatar\"></app-card>\r\n                </a>\r\n            </div>\r\n        </div>\r\n</div>"
+module.exports = "<div style=\"background-color:rgb(255, 255, 255)\">\r\n    <div class=\"mx-4\">\r\n        <br/>\r\n        <h2 class=\" float-left \">Your favorites</h2>\r\n    </div>\r\n    <br/>\r\n    <br/>\r\n    <div class=\"row\">\r\n        <div  *ngFor=\"let card of FavoriteCards\" class=\"col-lg-3 col-md-4 col-sm-6\">\r\n            <a *ngIf=\"logedIn\" routerLink=\"/learn/myFavoriteCollection/{{card._id}}\">\r\n                <app-card [cardTitle]=\"card.title\" [avatar]=\"card.avatar\" [typeAvatar]=\"card.typeAvatar\"></app-card>\r\n            </a>\r\n        </div>\r\n        <h4 class=\"mx-5\" style=\"color: red\" *ngIf=\"!logedIn\">Hãy đăng nhập để sử dụng tính năng này</h4>\r\n    </div>\r\n\r\n    <div class=\"mx-4\">\r\n            <br/>\r\n            <h2 class=\" float-left \">All cards</h2>\r\n        </div>\r\n        <br/>\r\n        <br/>\r\n        <div class=\"row\">\r\n            <div *ngFor=\"let card of Cards\" class=\"col-lg-3 col-md-4 col-sm-6\">\r\n                <a routerLink=\"/learn/collection/{{card._id}}\">\r\n                    <app-card [cardTitle]=\"card.title\" [avatar]=\"card.avatar\" [typeAvatar]=\"card.typeAvatar\"></app-card>\r\n                </a>\r\n            </div>\r\n        </div>\r\n</div>"
 
 /***/ }),
 
@@ -551,14 +553,16 @@ var HomepageComponent = /** @class */ (function () {
             .catch(function (e) {
             _this.errServer = true;
         });
-        this.dataService.getListFavoriteCollection()
-            .then(function (res) {
-            // console.log(res);
-            _this.FavoriteCards = res;
-        })
-            .catch(function (e) {
-            _this.errServer = true;
-        });
+        if (this.logedIn) {
+            this.dataService.getListFavoriteCollection()
+                .then(function (res) {
+                // console.log(res);
+                _this.FavoriteCards = res;
+            })
+                .catch(function (e) {
+                _this.errServer = true;
+            });
+        }
     };
     HomepageComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -586,7 +590,7 @@ module.exports = "label {\r\n display: inline;\r\ncursor: pointer;\r\n}\r\n\r\n.
 /***/ "./src/app/learnpage/learnpage.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"background-color:whitesmoke\">\r\n  <button class=\"btn btn-danger my-3 mx-5\" routerLink=\"/home\">X</button>\r\n  <button *ngIf=\"!favorite\" (click)=\"addToFavorite()\" class=\" btn btn-primary float-right my-3 mx-5\">Thêm vào mục yêu thích</button>\r\n  <button *ngIf=\"favorite\" (click)=\"removeOfFavorite()\" class=\" btn btn-danger float-right my-3 mx-5\">Xóa khỏi mục yêu thích</button>\r\n  <div class=\"row\">\r\n    <div class=\"col col-sm-offset-3\"></div>\r\n    <div class=\"col\">\r\n      <label>\r\n        <input type=\"checkbox\" />\r\n        <div class=\"card\">\r\n          <div class=\"front\">\r\n            <div *ngIf='typeFront==\"text\"' class=\"area\">\r\n              <div class=\"bubble\">\r\n                <p>{{front}}</p>\r\n              </div>\r\n            </div>\r\n            <img *ngIf='typeFront==\"img\"' src=\"{{front}}\">\r\n          </div>\r\n          <div class=\"back\">\r\n            <img *ngIf='typeBack==\"img\"' src=\"{{back}}\">\r\n            <div *ngIf='typeBack==\"text\"' class=\"area\">\r\n              <div class=\"bubble\">\r\n                <p>{{back}}</p>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <button *ngIf=\"!isFirst\" class=\"btn btn-success my-3 float-left\" (click)=\"backCard()\">Back</button>\r\n        <button *ngIf=\"!isLast\" class=\"btn btn-success my-3 float-right\" (click)=\"nextCard()\">Next</button>\r\n      </label>\r\n    </div>\r\n    <div class=\"col col-sm-offset-3\"></div>\r\n  </div>\r\n</div>"
+module.exports = "<div style=\"background-color:whitesmoke\">\r\n  <button class=\"btn btn-danger my-3 mx-1\" routerLink=\"/home\">X</button>\r\n  <button *ngIf=\"!favorite\" (click)=\"addToFavorite()\" class=\" btn btn-primary float-right my-3 mx-1\">Thêm vào mục yêu thích</button>\r\n  <button *ngIf=\"favorite\" (click)=\"removeOfFavorite()\" class=\" btn btn-danger float-right my-3 mx-1\">Xóa khỏi mục yêu thích</button>\r\n  <div class=\"row\">\r\n    <div class=\"col col-md-offset-3\"></div>\r\n    <div class=\"col col-12 col-md-4\">\r\n      <label>\r\n        <input type=\"checkbox\" />\r\n        <div class=\"card\">\r\n          <div class=\"front\">\r\n            <div *ngIf='typeFront==\"text\"' class=\"area\">\r\n              <div class=\"bubble\">\r\n                <p>{{front}}</p>\r\n              </div>\r\n            </div>\r\n            <img *ngIf='typeFront==\"img\"' src=\"{{front}}\">\r\n          </div>\r\n          <div class=\"back\">\r\n            <img *ngIf='typeBack==\"img\"' src=\"{{back}}\">\r\n            <div *ngIf='typeBack==\"text\"' class=\"area\">\r\n              <div class=\"bubble\">\r\n                <p>{{back}}</p>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <button *ngIf=\"!isFirst\" class=\"btn btn-success my-3 float-left\" (click)=\"backCard()\">Back</button>\r\n        <button *ngIf=\"!isLast\" class=\"btn btn-success my-3 float-right\" (click)=\"nextCard()\">Next</button>\r\n      </label>\r\n    </div>\r\n    <div class=\"col col-md-offset-3\"></div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
