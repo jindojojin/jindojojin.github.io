@@ -1,1 +1,0 @@
-# jindojojin.github.io
